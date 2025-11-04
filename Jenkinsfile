@@ -32,25 +32,11 @@ pipeline {
         '''
       }
     }
-
-    stage('코드 커버리지') {
-      steps {
-        sh '''
-        . venv/bin/activate
-        pytest --cov=app test_app.py --cov-report=html
-        '''
-      }
-    }
   }
 
   post {
     always {
       junit '*-results.xml'
-      publishHTML([
-        reportDir: 'htmlcov',
-        reportFiles: 'index.html',
-        reportName: 'Coverage Report'
-      ])
     }
     success {
       echo '모든 단계 성공'
